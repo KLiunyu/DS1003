@@ -66,18 +66,18 @@ import nltk
 
 # Parameters
 epoch = 1000
-hidden_dim = 128
+hidden_dim = 256
 embedding_dim = 4800
 label_size = 5
 batch_size = 32
-learning_rate = 0.001
+learning_rate = 0.3
 weight_decay = 0
-NUM_LAYERS = 10
-DROPOUT = 0.25
+NUM_LAYERS = 100
+DROPOUT = 0
 use_gpu = torch.cuda.is_available()
 
 data_label = torch.load('datalabel10000')
-data_label = data_label[10]
+
 # Collate Function to pad reviews to the same length
 def collate_function(batch):
     length_list = []
@@ -89,7 +89,7 @@ def collate_function(batch):
         length_list.append(batch[i][0].shape[0])
 
     max_length = np.max(length_list)
-    # max_length = 2
+    # max_length = 4
 
     for i in range(len(batch)):
         if batch[i][0].shape[0] < max_length:
@@ -108,6 +108,7 @@ def collate_function(batch):
 
 # Train loader and test loader		
 data_label = shuffle(data_label)
+# data_label = data_label[10]
 train_size = int(len(data_label) * 0.75)
 train_ = data_label[:train_size]
 test_ = data_label[train_size:]
@@ -233,7 +234,7 @@ loss_function = nn.CrossEntropyLoss()
 print("epoch: {} | hidden_dim: {} | batch_size: {} | learning_rate: {} | weight_decay: {} | num_layers: {} | dropout: {}".format(epoch,hidden_dim,batch_size,learning_rate,weight_decay,NUM_LAYERS,DROPOUT))
 
 for epoch_idx in range(1, epoch + 1):
-    if epoch_idx % 5 == 0:
+    if epoch_idx % 1 == 0:
         start = time.time()
         train(model, optimizer, epoch_idx, batch_size)
         end = time.time()
