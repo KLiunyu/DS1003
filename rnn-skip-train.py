@@ -88,8 +88,8 @@ def collate_function(batch):
         label_list.append(batch[i][1])
         length_list.append(batch[i][0].shape[0])
 
-    max_length = np.max(length_list)
-    # max_length = 4
+    # max_length = np.max(length_list)
+    max_length = 4
 
     for i in range(len(batch)):
         if batch[i][0].shape[0] < max_length:
